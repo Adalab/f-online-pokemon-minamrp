@@ -28,37 +28,39 @@ class App extends Component {
               };
               return newState;
             }))
-    })
-    this.getPokemonDetail()
-  
-  })
- 
-}
+          const pokemonDataArr = this.state.pokemonData;
+          Promise.all(pokemonDataArr)
+            .then(items => {
 
-getPokemonDetail(){
-  console.log("getp", this.state.pokemonData)
-  this.state.pokemonData.forEach(item=>{
-    this.setState(prevState=> {
-      const newState ={
-        pokemonDetail: prevState.pokemonDetail.concat(item.url)
-      };
-      return newState;
-    })})
+              items.forEach(item => {
+                this.setState(prevState => {
+                  const newState = {
+                    pokemonDetail: prevState.pokemonDetail.concat(item.url)
+                  };
+                  return newState;
+                })
+              })
+            })
+        })
+
+
+    })
 
   }
 
-render() {
-  const {pokemonData}= this.state;
-  console.log(pokemonData);
 
-  
-  return (
-    <div className="App">
-      <Search />
-      <PokeResults pokemonData={pokemonData} />
-    </div>
-  );
-}
+  render() {
+    const { pokemonData, pokemonDetail } = this.state;
+    console.log(pokemonData);
+    console.log(pokemonDetail);
+
+    return (
+      <div className="App">
+        <Search />
+        <PokeResults pokemonData={pokemonData} pokemonDetail={pokemonDetail} />
+      </div>
+    );
+  }
 }
 
 export default App;
